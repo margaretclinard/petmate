@@ -1,0 +1,19 @@
+{
+  "name": "petmate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "public/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/margaretclinard/petmate.git"
+  },
+  "author": "Margaret Clinard <margaret.clinard@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/margaretclinard/petmate/issues"
+  },
+  "homepage": "https://github.com/margaretclinard/petmate"
+}

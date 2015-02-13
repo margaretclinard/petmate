@@ -1,0 +1,21 @@
+{
+  "name": "petmate",
+  "version": "0.0.0",
+  "homepage": "https://github.com/margaretclinard/petmate",
+  "authors": [
+    "Margaret Clinard <margaret.clinard@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "lodash": "~3.2.0",
+    "foundation": "~5.5.1"
+  }
+}
