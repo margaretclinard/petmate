@@ -1,23 +1,26 @@
 language: node_js
 node_js:
-  - '0.10'
+- '0.10'
 before_install:
-  - npm install -g npm
-  - npm install -g bower
-  - bower install
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+- npm install -g npm
+- npm install -g bower
+- bower install
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 script:
-  - npm run build
-  - npm run test-once
+- npm run build
+- npm run test-once
 after_script:
-  - cat ./coverage/PhantomJS*/lcov.info | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js
+- cat ./coverage/PhantomJS*/lcov.info | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js
 after_success:
-  - npm install -g firebase-tools
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" ]];
-    then npm run deploy; fi
+- npm install -g firebase-tools
+- if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" ]];
+  then npm run deploy; fi
 notifications:
   email: false
 env:
   global:
-
+  - secure: W//u9mxZlxBInkdci0Jd0ay018V2tpTtq+hfy+bCAsTIECYpv6IIRzlhwDwXe7R7lKu0bY4zxmsvUGX1RUuBHOqaAXtDVCas74D/3EHSYk3jiWwjVxE3wYM+EeghX42ioypANnKXie/RwUs7dQMLWacWj7O79EA5d4G0KLxxkP0=
+  - secure: cwIyG7wUBfyV2kmwm0lxXdzkkI8mWwRiJ99b+/JZEzGYHMkMn0hjxLazB3ZnC/r8xYHQd83a6+ArLa1rh8asBZ+uA43As+mA4R9RAlBVdg5spWrkNclR61yxWOs4lyZJRXKd9aMjFTq15FiMkJuRnA1OkAiFaWhJfKobojMoAeo=
+  - secure: FKYL89/Ih3ccBvcE94tIY0lFd+Jh6IJFR+YRug43VFhN/ILRTGZFwrvjo6t1mwmer7xd4QPyQBGbKhTh0L8fqr2+a6Qsw4dEkLxL2wlKczugaIopCpduVKh2RAhAkA7JGQOEVJlR8+qUYM1qRK5N9myn7HKjtnvfJaSV4BdGgu8=
+  - secure: Pw8JuzYcEzkTY6vzfCiEPJ5TkDF+He6NseDzgW8Vl9Ch0bDc4YN921B4hgeDxp3qPeqTzbTytxVGWG7PgxcV4vT8qCetxc+x1WYH4Vw0OtQMaC3mkg9Ya0WFLSlO63JOkoIFqNVmJn7oOmEjuDvYwwD1FKBjPdITqavq9IyZ3L4=
