@@ -4,7 +4,12 @@
   "description": "",
   "main": "public/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "karma": "./node_modules/karma/bin/karma start",
+    "test": "npm run karma",
+    "test-once": "npm run karma -- --single-run",
+    "deploy": "firebase --email ${FIREBASE_EMAIL} --password ${FIREBASE_PASSWORD} deploy",
+    "build": "./build.sh",
+    "watch": "./watch.sh"
   },
   "repository": {
     "type": "git",
