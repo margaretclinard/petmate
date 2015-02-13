@@ -5,6 +5,59 @@
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
+    <div class="container">
+        <div class="large-6 large-centered columns login">
+          <h1>Address Book</h1>
+          <h3>Login or Register</h3>
+          <form action="#" class="loginForm">
+            <input type="email" id="email" name="email" placeholder="user@example.com">
+            <input type="password" id="password" name="password" placeholder="password">
+            <input type="submit" id="loginButton" class="button" value="Login">
+            <input type="button" id="registerButton" class="button" value="Register">
+            <div class=".error"></div>
+          </form>
+        </div>
+    </div>
+    <div class="app hidden">
+      <h1>Address Book</h1>
+
+      <div class="container">
+
+        <form>
+          <input class="button newContact" value="New Contact">
+          <button class="logout">Logout</button>
+        </form>
+
+        <form class="contacts-form" action="#">
+          <div>
+            <div class="large-6 large-centered columns">
+              <input type="text" class="name" placeholder="Name">
+              <input type="text" class="address" placeholder="Address">
+              <input type="text" class="phone" placeholder="Phone Number">
+              <input type="text" class="email" placeholder="Email">
+              <input type="text" class="photo" placeholder="Photo URL">
+              <input id="submit" class="button addContact" value="Add Contact">
+            </div>
+          </div>
+        </form>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th></th>
+            </thead>
+            <tbody class="target">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="vendor/jquery.min.js"></script>
   <script src="vendor/firebase.js"></script>
