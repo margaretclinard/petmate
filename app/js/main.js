@@ -1,16 +1,10 @@
 'use strict';
 
-//var $        = require('jquery'),
-    //_        = require('lodash'),
-    //Firebase = require('firebase');
-
-var FIREBASE_URL = 'https://mcaddressbook.firebaseio.com',
+var FIREBASE_URL = 'https://petmate.firebaseio.com',
     $form        = $('.contacts-form'),
     $newContact  = $('.newContact'),
     $addContact  = $('.addContact'),
-    fb           = new Firebase(FIREBASE_URL),
-    token;
-    //usersFb;
+    fb           = new Firebase(FIREBASE_URL);
 
 $(document).ready(function () {
   $newContact.click(function() {
@@ -27,18 +21,7 @@ if (fb.getAuth()) {
   $('.login').remove();
   $('.app').toggleClass('hidden');
 
-  //Alternative to using $.get
-  //usersFb = new Firebase(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends');
-
-  //usersFb.once('value', function (res){
-    //var data = res.val();
-    //Object.keys(data).forEach(function (uuid) {
-      //addContactToTable(uuid, data[uuid]);
-    //});
-  //});
-
-  token = fb.getAuth().token;
-  $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends.json?auth=' + token, function(data){
+  $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', function(data){
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
         addContactToTable(uuid, data[uuid]);
@@ -123,12 +106,10 @@ function getContact(event) {
 
   var contact = {name: $name, address: $address, phone: $phone, email: $email, photo: $photo};
   var data = JSON.stringify(contact);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends.json?auth=' + token, data, function(res){
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function(res){
     console.log(res);
     addContactToTable(res.name, contact);
   });
-  //Alternative to lines above
-  //usersFb.push(data, function(res){ return cb(res.val()); });
   $form.hide();
   $addContact.hide();
   $newContact.show();
@@ -138,10 +119,8 @@ function removeContact(evt) {
   var $tr = $(evt.target).closest('tr');
   $tr.remove();
   var uuid = $tr.data('uuid');
-  var url = FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends/' + uuid + '.json?auth=' + token;
+  var url = FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends/' + uuid + '.json';
   $.ajax(url, {type: "DELETE"});
-  //Alternative to lines two lines above
-  //usersFb.child(uuid).remove();
 }
 
 
