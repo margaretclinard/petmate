@@ -21,7 +21,7 @@ if (fb.getAuth()) {
   $('.login').remove();
   $('.app').toggleClass('hidden');
 
-  $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', function(data){
+  $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', function(data){
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
         addContactToTable(uuid, data[uuid]);
@@ -106,7 +106,7 @@ function getContact(event) {
 
   var contact = {name: $name, address: $address, phone: $phone, email: $email, photo: $photo};
   var data = JSON.stringify(contact);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function(res){
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
     console.log(res);
     addContactToTable(res.name, contact);
   });
@@ -119,7 +119,7 @@ function removeContact(evt) {
   var $tr = $(evt.target).closest('tr');
   $tr.remove();
   var uuid = $tr.data('uuid');
-  var url = FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/friends/' + uuid + '.json';
+  var url = FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile/' + uuid + '.json';
   $.ajax(url, {type: "DELETE"});
 }
 
