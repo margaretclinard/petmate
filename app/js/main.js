@@ -2,18 +2,18 @@
 
 var FIREBASE_URL = 'https://petmate.firebaseio.com',
     $form        = $('.contacts-form'),
-    $newContact  = $('.newProfile'),
-    $addContact  = $('.addProfile'),
+    $newProfile  = $('.newProfile'),
+    $addProfile  = $('.addProfile'),
     fb           = new Firebase(FIREBASE_URL);
 
 $(document).ready(function () {
-  $newContact.click(function() {
+  $newProfile.click(function() {
     $form.show();
-    $addContact.show();
-    $newContact.hide();
+    $addProfile.show();
+    $newProfile.hide();
   });
 
-  $addContact.click(getContact);
+  $addProfile.click(getContact);
   $('tbody').on('click', '.removeButton' , removeContact);
 });
 
@@ -107,12 +107,11 @@ function getContact(event) {
   var contact = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
   var data = JSON.stringify(contact);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
-    console.log(res);
     addContactToTable(res.name, contact);
   });
   $form.hide();
-  $addContact.hide();
-  $newContact.show();
+  $addProfile.hide();
+  $newProfile.show();
 }
 
 function removeContact(evt) {
