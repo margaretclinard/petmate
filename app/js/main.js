@@ -2,8 +2,8 @@
 
 var FIREBASE_URL = 'https://petmate.firebaseio.com',
     $form        = $('.contacts-form'),
-    $newContact  = $('.newContact'),
-    $addContact  = $('.addContact'),
+    $newContact  = $('.newProfile'),
+    $addContact  = $('.addProfile'),
     fb           = new Firebase(FIREBASE_URL);
 
 $(document).ready(function () {

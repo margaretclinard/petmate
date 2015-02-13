@@ -26,6 +26,13 @@ describe('DOM', function () {
     });
   });
 
+  describe('animal object', function () {
+    it('should have property', function () {
+      var animal = { location: 'Nashville', name: 'Felix', occupation: 'nurse', sex: 'Male' };
+      expect(animal).to.have.property('location');
+    });
+  });
+
 });
 
 //Tests to try: .sameDeepMembers; .includeMembers
