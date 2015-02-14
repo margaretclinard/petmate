@@ -13,9 +13,25 @@ $(document).ready(function () {
     $newProfile.hide();
   });
 
-  $addProfile.click(getContact);
+  $addProfile.click(getPetProfile);
   $('tbody').on('click', '.removeButton' , removeContact);
+  $('div').on('click', '.browse', showMatches);
+  $('div').on('click', '.myProfile', showProfile);
 });
+
+//Function for clicking on Find Your Mate button
+function showMatches() {
+  $('.profile').hide();
+  $('.petPool').show();
+  $form.hide();
+}
+
+//Function for clicking on My Profile button
+function showProfile() {
+  $('.profile').show();
+  $('.petPool').hide();
+  $form.hide();
+}
 
 if (fb.getAuth()) {
   $('.login').remove();
@@ -24,8 +40,7 @@ if (fb.getAuth()) {
   $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', function(data){
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
-        addContactToTable(uuid, data[uuid]);
-        //_.forEach(data, getMatch(uuid, data[uuid]));
+        addProfileToTable(uuid, data[uuid]);
         showPetDiv();
       });
     }
@@ -86,7 +101,7 @@ function registerAndLogin(obj, cb) {
 }
 
 //Creates table of user profile with uuid data attribute
-function addContactToTable(uuid, pet) {
+function addProfileToTable(uuid, pet) {
   var $tr = $('<tr><td class="image"><img class="image" src="' + pet.photo +
              '"></td><td class="name">' + pet.name +
               '</td><td class="sex">' + pet.sex +
@@ -101,7 +116,7 @@ function addContactToTable(uuid, pet) {
 }
 
 //Posts pet profile to table
-function getContact(event) {
+function getPetProfile(event) {
   event.preventDefault();
 
   var $name    = $('.name').val(),
@@ -110,10 +125,10 @@ function getContact(event) {
       $occupation   = $('.occupation').val(),
       $photo   = $('.photo').val();
 
-  var contact = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
-  var data = JSON.stringify(contact);
+  var profile = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
+  var data = JSON.stringify(profile);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
-    addContactToTable(res.name, contact);
+    addProfileToTable(res.name, profile);
   });
   $form.hide();
   $addProfile.hide();
