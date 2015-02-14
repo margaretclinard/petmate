@@ -25,6 +25,7 @@ if (fb.getAuth()) {
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
         addContactToTable(uuid, data[uuid]);
+        getMatch(uuid, data[uuid]);
       });
     }
   });
@@ -83,13 +84,14 @@ function registerAndLogin(obj, cb) {
   });
 }
 
-function addContactToTable(uuid, contact) {
-  var $tr = $('<tr><td class="image"><img class="image" src="' + contact.photo +
-             '"></td><td class="name">' + contact.name +
-              '</td><td class="sex">' + contact.sex +
-              '</td><td class="location">' + contact.location +
-              '</td><td class="occupation">' + contact.occupation +
+function addContactToTable(uuid, pet) {
+  var $tr = $('<tr><td class="image"><img class="image" src="' + pet.photo +
+             '"></td><td class="name">' + pet.name +
+              '</td><td class="sex">' + pet.sex +
+              '</td><td class="location">' + pet.location +
+              '</td><td class="occupation">' + pet.occupation +
              '</td><td><button class="removeButton">Remove</button></td></tr>');
+
   $tr.attr('data-uuid', uuid);
   $('.target').append($tr);
   $('.contacts-form').trigger('reset');
@@ -108,6 +110,7 @@ function getContact(event) {
   var data = JSON.stringify(contact);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
     addContactToTable(res.name, contact);
+    getMatch(res.name, contact);
   });
   $form.hide();
   $addProfile.hide();
@@ -122,4 +125,15 @@ function removeContact(evt) {
   $.ajax(url, {type: "DELETE"});
 }
 
+function getMatch(uuid, pet) {
 
+  var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
+                  '"><div class="petName">' + pet.name +
+                  '</div><div class="petSex">' + pet.sex +
+                  '</div><div class="petLocation">' + pet.location +
+                  '</div><div class="petOccupation">' + pet.occupation +
+                  '</div></div>');
+
+  $petDiv.attr('data-uuid', uuid);
+  $('.petPool').append($petDiv);
+}
