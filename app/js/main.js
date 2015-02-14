@@ -25,8 +25,8 @@ if (fb.getAuth()) {
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
         addContactToTable(uuid, data[uuid]);
-        console.log(data);
-        _.forEach(data, getMatch(uuid, data[uuid]));
+        //_.forEach(data, getMatch(uuid, data[uuid]));
+        showPetDiv();
       });
     }
   });
@@ -85,6 +85,7 @@ function registerAndLogin(obj, cb) {
   });
 }
 
+//Creates table of user profile with uuid data attribute
 function addContactToTable(uuid, pet) {
   var $tr = $('<tr><td class="image"><img class="image" src="' + pet.photo +
              '"></td><td class="name">' + pet.name +
@@ -99,6 +100,7 @@ function addContactToTable(uuid, pet) {
 
 }
 
+//Posts pet profile to table
 function getContact(event) {
   event.preventDefault();
 
@@ -112,13 +114,13 @@ function getContact(event) {
   var data = JSON.stringify(contact);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
     addContactToTable(res.name, contact);
-    getMatch(res.name, contact);
   });
   $form.hide();
   $addProfile.hide();
   $newProfile.show();
 }
 
+//Removes pet profile from table
 function removeContact(evt) {
   var $tr = $(evt.target).closest('tr');
   $tr.remove();
@@ -127,6 +129,7 @@ function removeContact(evt) {
   $.ajax(url, {type: "DELETE"});
 }
 
+//Creates div of other pets in database
 function getMatch(uuid, pet) {
   var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
                   '"><div class="petName">' + pet.name +
@@ -137,7 +140,12 @@ function getMatch(uuid, pet) {
 
   $petDiv.attr('data-uuid', uuid);
   $('.petPool').append($petDiv);
-
 }
 
-
+//Displays div of other pets in database
+function showPetDiv() {
+  $.get(FIREBASE_URL + '/users.json', function (data) {
+    _.forEach(data, getMatch);
+    console.log(data);
+  });
+}

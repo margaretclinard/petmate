@@ -1,9 +1,11 @@
 @import './foundation/scss/foundation';
 
 
-/*.petPool {*/
-  /*display: none;*/
-/*}*/
+.pet {
+  display: inline-block;
+  width: 25%;
+  text-align: center;
+}
 
 button .like, .dislike {
   margin: 5px;
