@@ -25,7 +25,8 @@ if (fb.getAuth()) {
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
         addContactToTable(uuid, data[uuid]);
-        getMatch(uuid, data[uuid]);
+        console.log(data);
+        _.forEach(data, getMatch(uuid, data[uuid]));
       });
     }
   });
@@ -95,6 +96,7 @@ function addContactToTable(uuid, pet) {
   $tr.attr('data-uuid', uuid);
   $('.target').append($tr);
   $('.contacts-form').trigger('reset');
+
 }
 
 function getContact(event) {
@@ -126,14 +128,16 @@ function removeContact(evt) {
 }
 
 function getMatch(uuid, pet) {
-
   var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
                   '"><div class="petName">' + pet.name +
                   '</div><div class="petSex">' + pet.sex +
                   '</div><div class="petLocation">' + pet.location +
                   '</div><div class="petOccupation">' + pet.occupation +
-                  '</div></div>');
+                  '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
 
   $petDiv.attr('data-uuid', uuid);
   $('.petPool').append($petDiv);
+
 }
+
+

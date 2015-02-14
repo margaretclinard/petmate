@@ -1,8 +1,12 @@
 @import './foundation/scss/foundation';
 
 
-.petPool {
-  display: none;
+/*.petPool {*/
+  /*display: none;*/
+/*}*/
+
+button .like, .dislike {
+  margin: 5px;
 }
 
 #submit {
