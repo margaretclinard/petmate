@@ -154,7 +154,7 @@ function getMatch(login, pet) {
                   '</div><div class="petLocation">' + pet.location +
                   '</div><div class="petOccupation">' + pet.occupation +
                   '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
-  $petDiv.attr('data-uuid', (Object.keys(pet.profile)));
+  $petDiv.attr('data-uuid', login);
   $('.petPool').append($petDiv);
 }
 
@@ -163,7 +163,7 @@ function showPetDiv() {
   $.get(FIREBASE_URL + '/users.json', function (data) {
     Object.keys(data).forEach(function (login) {
       getMatch(login, data[login]);
-      //console.log(data[login].profile);
+      console.log(data[login].profile);
     });
   });
 }
@@ -172,7 +172,7 @@ function showPetDiv() {
 function postLike(event) {
   event.preventDefault();
 
-  var like = fb.getAuth().uid,
+  var like = $('.pet').data('uuid'),
       data = JSON.stringify(like);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/likes.json', data, function () {
   });
@@ -182,8 +182,9 @@ function postLike(event) {
 function postDislike(event) {
   event.preventDefault();
 
-  var dislike = fb.getAuth().uid,
+  var dislike = $('.pet').data('uuid'),
       data    = JSON.stringify(dislike);
+      console.log(dislike);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function () {
   });
 }
