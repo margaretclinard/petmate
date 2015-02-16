@@ -1,5 +1,23 @@
 @import './foundation/scss/foundation';
 
+.logout {
+  margin-left: 85%;
+}
+
+.petPool {
+  display: none;
+}
+
+.pet {
+  display: inline-block;
+  width: 25%;
+  text-align: center;
+}
+
+button .like, .dislike {
+  margin: 5px;
+}
+
 #submit {
   text-align: center;
 }
@@ -8,7 +26,7 @@
   text-align: center;
 }
 
-h1, h3{
+h1, h2, h3{
   text-align: center;
 }
 form {
@@ -31,5 +49,4 @@ table {
 .hidden {
   display: none;
 }
-
 

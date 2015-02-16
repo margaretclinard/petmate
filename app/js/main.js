@@ -2,20 +2,36 @@
 
 var FIREBASE_URL = 'https://petmate.firebaseio.com',
     $form        = $('.contacts-form'),
-    $newContact  = $('.newContact'),
-    $addContact  = $('.addContact'),
+    $newProfile  = $('.newProfile'),
+    $addProfile  = $('.addProfile'),
     fb           = new Firebase(FIREBASE_URL);
 
 $(document).ready(function () {
-  $newContact.click(function() {
+  $newProfile.click(function() {
     $form.show();
-    $addContact.show();
-    $newContact.hide();
+    $addProfile.show();
+    $newProfile.hide();
   });
 
-  $addContact.click(getContact);
+  $addProfile.click(getPetProfile);
   $('tbody').on('click', '.removeButton' , removeContact);
+  $('div').on('click', '.browse', showMatches);
+  $('div').on('click', '.myProfile', showProfile);
 });
+
+//Function for clicking on Find Your Mate button
+function showMatches() {
+  $('.profile').hide();
+  $('.petPool').show();
+  $form.hide();
+}
+
+//Function for clicking on My Profile button
+function showProfile() {
+  $('.profile').show();
+  $('.petPool').hide();
+  $form.hide();
+}
 
 if (fb.getAuth()) {
   $('.login').remove();
@@ -24,7 +40,8 @@ if (fb.getAuth()) {
   $.get(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', function(data){
     if(data !== null) {
       Object.keys(data).forEach(function(uuid) {
-        addContactToTable(uuid, data[uuid]);
+        addProfileToTable(uuid, data[uuid]);
+        showPetDiv();
       });
     }
   });
@@ -83,38 +100,42 @@ function registerAndLogin(obj, cb) {
   });
 }
 
-function addContactToTable(uuid, contact) {
-  var $tr = $('<tr><td class="image"><img class="image" src="' + contact.photo +
-             '"></td><td class="name">' + contact.name +
-              '</td><td class="address">' + contact.address +
-              '</td><td class="phone">' + contact.phone +
-              '</td><td class="email">' + contact.email +
+//Creates table of user profile with uuid data attribute
+function addProfileToTable(uuid, pet) {
+  var $tr = $('<tr><td class="image"><img class="image" src="' + pet.photo +
+             '"></td><td class="name">' + pet.name +
+              '</td><td class="sex">' + pet.sex +
+              '</td><td class="location">' + pet.location +
+              '</td><td class="occupation">' + pet.occupation +
              '</td><td><button class="removeButton">Remove</button></td></tr>');
+
   $tr.attr('data-uuid', uuid);
   $('.target').append($tr);
   $('.contacts-form').trigger('reset');
+
 }
 
-function getContact(event) {
+//Posts pet profile to table
+function getPetProfile(event) {
   event.preventDefault();
 
   var $name    = $('.name').val(),
-      $address = $('.address').val(),
-      $phone   = $('.phone').val(),
-      $email   = $('.email').val(),
+      $sex = $('.sex').val(),
+      $location   = $('.location').val(),
+      $occupation   = $('.occupation').val(),
       $photo   = $('.photo').val();
 
-  var contact = {name: $name, address: $address, phone: $phone, email: $email, photo: $photo};
-  var data = JSON.stringify(contact);
+  var profile = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
+  var data = JSON.stringify(profile);
   $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
-    console.log(res);
-    addContactToTable(res.name, contact);
+    addProfileToTable(res.name, profile);
   });
   $form.hide();
-  $addContact.hide();
-  $newContact.show();
+  $addProfile.hide();
+  $newProfile.show();
 }
 
+//Removes pet profile from table
 function removeContact(evt) {
   var $tr = $(evt.target).closest('tr');
   $tr.remove();
@@ -123,4 +144,23 @@ function removeContact(evt) {
   $.ajax(url, {type: "DELETE"});
 }
 
+//Creates div of other pets in database
+function getMatch(uuid, pet) {
+  var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
+                  '"><div class="petName">' + pet.name +
+                  '</div><div class="petSex">' + pet.sex +
+                  '</div><div class="petLocation">' + pet.location +
+                  '</div><div class="petOccupation">' + pet.occupation +
+                  '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
 
+  $petDiv.attr('data-uuid', uuid);
+  $('.petPool').append($petDiv);
+}
+
+//Displays div of other pets in database
+function showPetDiv() {
+  $.get(FIREBASE_URL + '/users.json', function (data) {
+    _.forEach(data, getMatch);
+    console.log(data);
+  });
+}

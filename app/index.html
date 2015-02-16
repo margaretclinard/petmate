@@ -19,37 +19,40 @@
         </div>
     </div>
     <div class="app hidden">
+      <button class="logout">Logout</button>
       <h1>Petmate</h1>
 
       <div class="container">
 
         <form>
-          <input class="button newContact" value="New Contact">
-          <button class="logout">Logout</button>
+          <input class="button myProfile" value="My Profile">
+          <input class="button newProfile" value="New Profile">
+          <input class="button browse" value="Find Possible Mates">
+          <input class="button" value="My Mates">
         </form>
 
         <form class="contacts-form" action="#">
           <div>
             <div class="large-6 large-centered columns">
               <input type="text" class="name" placeholder="Name">
-              <input type="text" class="address" placeholder="Male/Female">
-              <input type="text" class="phone" placeholder="Location">
-              <input type="text" class="email" placeholder="Occupation">
+              <input type="text" class="sex" placeholder="Male/Female">
+              <input type="text" class="location" placeholder="Location">
+              <input type="text" class="occupation" placeholder="Occupation">
               <input type="text" class="photo" placeholder="Photo URL">
-              <input id="submit" class="button addContact" value="Add Contact">
+              <input id="submit" class="button addProfile" value="Add Profile">
             </div>
           </div>
         </form>
 
         <div>
-          <table>
+          <table class="profile">
             <thead>
               <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Email</th>
+                <th>Male/Female</th>
+                <th>Location</th>
+                <th>Occupation</th>
                 <th></th>
             </thead>
             <tbody class="target">
@@ -57,9 +60,14 @@
           </table>
         </div>
       </div>
+
+      <div class="petPool">
+        <h1>Find Your Mate</h1>
+      </div>
     </div>
   </body>
   <script src="vendor/jquery.min.js"></script>
   <script src="vendor/firebase.js"></script>
+  <script src="vendor/lodash.min.js"></script>
   <script src="js/main.js"></script>
 </html>
