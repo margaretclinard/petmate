@@ -174,7 +174,7 @@ function postLike(event) {
 
   var like = fb.getAuth().uid,
       data = JSON.stringify(like);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/users/likes.json', data, function () {
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/likes.json', data, function () {
   });
 }
 
@@ -184,6 +184,6 @@ function postDislike(event) {
 
   var dislike = fb.getAuth().uid,
       data    = JSON.stringify(dislike);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/users/dislikes.json', data, function () {
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function () {
   });
 }
