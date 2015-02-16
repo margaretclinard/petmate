@@ -147,24 +147,24 @@ function removeContact(evt) {
 }
 
 //Creates div of other pets in database
-/******* The problem should be in this function. UUID is an object, not the specific login w/ keys -- so the data attribute is showing as object ******/
-function getMatch(uuid, pet) {
+function getMatch(login, pet) {
   var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
                   '"><div class="petName">' + pet.name +
                   '</div><div class="petSex">' + pet.sex +
                   '</div><div class="petLocation">' + pet.location +
                   '</div><div class="petOccupation">' + pet.occupation +
                   '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
-  console.log(uuid);
-  $petDiv.attr('data-uuid', uuid);
+  $petDiv.attr('data-uuid', (Object.keys(pet.profile)));
   $('.petPool').append($petDiv);
 }
 
 //Displays div of other pets in database
 function showPetDiv() {
   $.get(FIREBASE_URL + '/users.json', function (data) {
-    _.forEach(data, getMatch);
-    console.log(data);
+    Object.keys(data).forEach(function (login) {
+      getMatch(login, data[login]);
+      //console.log(data[login].profile);
+    });
   });
 }
 
