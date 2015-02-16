@@ -17,6 +17,8 @@ $(document).ready(function () {
   $('tbody').on('click', '.removeButton' , removeContact);
   $('div').on('click', '.browse', showMatches);
   $('div').on('click', '.myProfile', showProfile);
+  $('div').on('click', '.like', postLike);
+  $('div').on('click', '.dislike', postDislike);
 });
 
 //Function for clicking on Find Your Mate button
@@ -119,11 +121,11 @@ function addProfileToTable(uuid, pet) {
 function getPetProfile(event) {
   event.preventDefault();
 
-  var $name    = $('.name').val(),
-      $sex = $('.sex').val(),
+  var $name       = $('.name').val(),
+      $sex        = $('.sex').val(),
       $location   = $('.location').val(),
-      $occupation   = $('.occupation').val(),
-      $photo   = $('.photo').val();
+      $occupation = $('.occupation').val(),
+      $photo      = $('.photo').val();
 
   var profile = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
   var data = JSON.stringify(profile);
@@ -145,6 +147,7 @@ function removeContact(evt) {
 }
 
 //Creates div of other pets in database
+/******* The problem should be in this function. UUID is an object, not the specific login w/ keys -- so the data attribute is showing as object ******/
 function getMatch(uuid, pet) {
   var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
                   '"><div class="petName">' + pet.name +
@@ -152,7 +155,7 @@ function getMatch(uuid, pet) {
                   '</div><div class="petLocation">' + pet.location +
                   '</div><div class="petOccupation">' + pet.occupation +
                   '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
-
+  console.log(uuid);
   $petDiv.attr('data-uuid', uuid);
   $('.petPool').append($petDiv);
 }
@@ -162,5 +165,25 @@ function showPetDiv() {
   $.get(FIREBASE_URL + '/users.json', function (data) {
     _.forEach(data, getMatch);
     console.log(data);
+  });
+}
+
+//Send like to "Like" database on click
+function postLike(event) {
+  event.preventDefault();
+
+  var like = fb.getAuth().uid,
+      data = JSON.stringify(like);
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/likes.json', data, function () {
+  });
+}
+
+//Send dislike to "Dislikes" database on click
+function postDislike(event) {
+  event.preventDefault();
+
+  var dislike = fb.getAuth().uid,
+      data    = JSON.stringify(dislike);
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function () {
   });
 }
