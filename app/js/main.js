@@ -162,7 +162,7 @@ function getMatch(login, pet) {
 function showPetDiv() {
   $.get(FIREBASE_URL + '/users.json', function (data) {
     Object.keys(data).forEach(function (login) {
-      getMatch(login, data[login]);
+      getMatch(login, data);
       console.log(data[login].profile);
     });
   });
@@ -185,6 +185,6 @@ function postDislike(event) {
   var dislike = $('.pet').data('uuid'),
       data    = JSON.stringify(dislike);
       console.log(dislike);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function () {
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/data/dislikes.json', data, function (res) {
   });
 }
