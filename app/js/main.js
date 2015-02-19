@@ -129,7 +129,7 @@ function getPetProfile(event) {
 
   var profile = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
   var data = JSON.stringify(profile);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + '/profile.json', data, function(res){
+  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + 'profile.json', data, function(res){
     addProfileToTable(res.name, profile);
   });
   $form.hide();
@@ -156,13 +156,16 @@ function getMatch(login, pet) {
                   '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
   $petDiv.attr('data-uuid', login);
   $('.petPool').append($petDiv);
+  console.log('from getMatch function:')
+  console.log(pet);
 }
 
 //Displays div of other pets in database
 function showPetDiv() {
   $.get(FIREBASE_URL + '/users.json', function (data) {
     Object.keys(data).forEach(function (login) {
-      getMatch(login, data);
+      getMatch(login, data[login].profile);
+      console.log('from showPetDiv function:');
       console.log(data[login].profile);
     });
   });
