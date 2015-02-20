@@ -129,9 +129,14 @@ function getPetProfile(event) {
 
   var profile = {name: $name, sex: $sex, location: $location, occupation: $occupation, photo: $photo};
   var data = JSON.stringify(profile);
-  $.post(FIREBASE_URL + '/users/' + fb.getAuth().uid + 'profile.json', data, function(res){
+  $.ajax({
+    url: FIREBASE_URL + '/users/' + fb.getAuth().uid + 'profile.json',
+    data: data,
+    error: function(a, b, c) { console.log(a, b, c) },
+    type: 'PUT',
+    success: function(res){
     addProfileToTable(res.name, profile);
-  });
+  }})
   $form.hide();
   $addProfile.hide();
   $newProfile.show();
@@ -147,17 +152,20 @@ function removeContact(evt) {
 }
 
 //Creates div of other pets in database
-function getMatch(login, pet) {
-  var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
-                  '"><div class="petName">' + pet.name +
-                  '</div><div class="petSex">' + pet.sex +
-                  '</div><div class="petLocation">' + pet.location +
-                  '</div><div class="petOccupation">' + pet.occupation +
-                  '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
-  $petDiv.attr('data-uuid', login);
-  $('.petPool').append($petDiv);
-  console.log('from getMatch function:')
-  console.log(pet);
+function getMatch(login, petObj) {
+  Object.keys(petObj).forEach(function (id) {
+    var pet = petObj[id];
+    var $petDiv = $('<div class="pet"><img class="petPhoto" src="' + pet.photo +
+                    '"><div class="petName">' + pet.name +
+                    '</div><div class="petSex">' + pet.sex +
+                    '</div><div class="petLocation">' + pet.location +
+                    '</div><div class="petOccupation">' + pet.occupation +
+                    '</div><button class="like">Like</button><button class="dislike">Dislike</button></div>');
+    $petDiv.attr('data-uuid', login);
+    $('.petPool').append($petDiv);
+    console.log('from getMatch function:')
+    console.log(pet);
+  })
 }
 
 //Displays div of other pets in database
